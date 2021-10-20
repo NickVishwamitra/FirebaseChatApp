@@ -117,7 +117,9 @@ const LoginScreen = (props: any) => {
       <Icon icon="cloud" className="cloud" size={110} />
       <p className="loginText">Login</p>
       <div className="form">
-        <CssTextField
+        <TextField
+          autoFocus={false}
+          variant="standard"
           label="Email"
           InputLabelProps={{
             className: "inputfield",
@@ -127,8 +129,10 @@ const LoginScreen = (props: any) => {
           onKeyPress={(e: any) => {
             e.key == "Enter" ? SubmitHandler() : console.log("");
           }}
-        ></CssTextField>
-        <CssTextField
+        ></TextField>
+        <TextField
+          variant="standard"
+          autoFocus={false}
           label="Password"
           InputLabelProps={{
             className: "inputfield",
@@ -139,7 +143,7 @@ const LoginScreen = (props: any) => {
           onKeyPress={(e: any) => {
             e.key == "Enter" ? SubmitHandler() : console.log("");
           }}
-        ></CssTextField>
+        ></TextField>
         <Button
           className="submit"
           style={{ marginBottom: "30%" }}
