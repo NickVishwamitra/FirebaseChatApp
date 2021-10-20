@@ -45,6 +45,23 @@ const GoogleButton = styled("button")(`
 
 `);
 
+const CssTextField = styled(TextField)({
+  "& .MuiOutlinedInput-root": {
+    width: "100%",
+    color: "#FFF",
+    "&.Mui-focused fieldset": {
+      borderColor: "#00fda0",
+    },
+    "& fieldset": {
+      borderColor: "white",
+      color: "#FFF",
+    },
+    "&:hover fieldset": {
+      borderColor: "#00fda0",
+    },
+  },
+});
+
 const SignUp = () => {
   const emailForm = useRef<any>();
 
@@ -54,23 +71,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
 
   const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
-
-  const CssTextField = styled(TextField)({
-    "& .MuiOutlinedInput-root": {
-      width: "100%",
-      color: "#FFF",
-      "&.Mui-focused fieldset": {
-        borderColor: "#00fda0",
-      },
-      "& fieldset": {
-        borderColor: "white",
-        color: "#FFF",
-      },
-      "&:hover fieldset": {
-        borderColor: "#00fda0",
-      },
-    },
-  });
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",

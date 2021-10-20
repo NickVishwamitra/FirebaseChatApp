@@ -83,7 +83,6 @@ export const NavItem = ({ props, i }: { i: any; props: any }) => {
             realmApp.currentUser?.logOut();
             history.go(0);
           }}
-          style={{ marginTop: "40vh" }}
         >
           <p>Log Out</p>
         </Button>
