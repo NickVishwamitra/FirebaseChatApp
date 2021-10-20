@@ -23,6 +23,23 @@ import SignUp from "../SignUpPage/SignUp";
 import assert from "assert";
 import { useHistory } from "react-router-dom";
 
+const CssTextField = styled(TextField)({
+  "& .MuiOutlinedInput-root": {
+    width: "100%",
+    color: "#FFF",
+    "&.Mui-focused fieldset": {
+      borderColor: "#00fda0",
+    },
+    "& fieldset": {
+      borderColor: "white",
+      color: "#FFF",
+    },
+    "&:hover fieldset": {
+      borderColor: "#00fda0",
+    },
+  },
+});
+
 const LoginScreen = (props: any) => {
   const [open, setOpen] = React.useState(false);
 
@@ -68,23 +85,6 @@ const LoginScreen = (props: any) => {
     }
   };
 
-  const CssTextField = styled(TextField)({
-    "& .MuiOutlinedInput-root": {
-      width: "100%",
-      color: "#FFF",
-      "&.Mui-focused fieldset": {
-        borderColor: "#00fda0",
-      },
-      "& fieldset": {
-        borderColor: "white",
-        color: "#FFF",
-      },
-      "&:hover fieldset": {
-        borderColor: "#00fda0",
-      },
-    },
-  });
-
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
     height: "10%",
@@ -117,9 +117,8 @@ const LoginScreen = (props: any) => {
       <Icon icon="cloud" className="cloud" size={110} />
       <p className="loginText">Login</p>
       <div className="form">
-        <TextField
+        <CssTextField
           autoFocus={false}
-          variant="standard"
           label="Email"
           InputLabelProps={{
             className: "inputfield",
@@ -129,9 +128,8 @@ const LoginScreen = (props: any) => {
           onKeyPress={(e: any) => {
             e.key == "Enter" ? SubmitHandler() : console.log("");
           }}
-        ></TextField>
-        <TextField
-          variant="standard"
+        ></CssTextField>
+        <CssTextField
           autoFocus={false}
           label="Password"
           InputLabelProps={{
@@ -143,7 +141,7 @@ const LoginScreen = (props: any) => {
           onKeyPress={(e: any) => {
             e.key == "Enter" ? SubmitHandler() : console.log("");
           }}
-        ></TextField>
+        ></CssTextField>
         <Button
           className="submit"
           style={{ marginBottom: "30%" }}
