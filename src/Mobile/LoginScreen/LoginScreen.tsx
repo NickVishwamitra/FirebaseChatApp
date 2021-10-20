@@ -23,12 +23,6 @@ import SignUp from "../SignUpPage/SignUp";
 import assert from "assert";
 import { useHistory } from "react-router-dom";
 
-function MyFormHelperText() {
-  const { focused } = useFormControl() || {};
-
-  return <FormHelperText></FormHelperText>;
-}
-
 const LoginScreen = (props: any) => {
   const [open, setOpen] = React.useState(false);
 
@@ -122,7 +116,7 @@ const LoginScreen = (props: any) => {
       />
       <Icon icon="cloud" className="cloud" size={110} />
       <p className="loginText">Login</p>
-      <FormControl className="form">
+      <div className="form">
         <CssTextField
           label="Email"
           InputLabelProps={{
@@ -158,8 +152,7 @@ const LoginScreen = (props: any) => {
         <ColorButton className="signUp" onClick={props.handleSignUpOnClick}>
           SIGN UP
         </ColorButton>
-        <MyFormHelperText />
-      </FormControl>
+      </div>
       <Snackbar open={open} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           Incorrect Login! Try Again.

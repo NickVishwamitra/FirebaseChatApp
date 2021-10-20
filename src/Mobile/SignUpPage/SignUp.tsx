@@ -45,11 +45,6 @@ const GoogleButton = styled("button")(`
 
 `);
 
-function MyFormHelperText() {
-  const { focused } = useFormControl() || {};
-
-  return <FormHelperText></FormHelperText>;
-}
 const SignUp = () => {
   const emailForm = useRef<any>();
 
@@ -113,7 +108,7 @@ const SignUp = () => {
       <Icon icon="clipboard" className="cloud" size={110} />
       <p className="createText">Create An Account</p>
       <div className="registerArea">
-        <FormControl className="form">
+        <div className="form">
           <CssTextField
             required
             inputRef={emailForm}
@@ -142,7 +137,7 @@ const SignUp = () => {
           <GoogleButton>
             Sign Up With <GLogo></GLogo>
           </GoogleButton>
-        </FormControl>
+        </div>
       </div>
     </div>
   );
