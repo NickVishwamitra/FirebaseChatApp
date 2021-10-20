@@ -74,7 +74,7 @@ const SignUp = () => {
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
-    height: "20%",
+    height: "15%",
     fontSize: "1.5em",
     backgroundColor: "#008f5a",
     "&:hover": {
@@ -132,7 +132,7 @@ const SignUp = () => {
           <ColorButton className="signUp" onClick={RegisterHandler}>
             Register
           </ColorButton>
-          <p style={{ color: "#FFF" }}>Or</p>
+          <p style={{ color: "#FFF", margin: 0 }}>Or</p>
           <Button onClick={() => history.push("/")}>Log in with email</Button>
           <GoogleButton>
             Sign Up With <GLogo></GLogo>
