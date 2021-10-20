@@ -1,0 +1,28 @@
+.signUpPage {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  background-color: #111418;
+  text-align: center;
+}
+
+.registerArea {
+  width: 100vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .signUp {
+  position: absolute;
+} */
+.createText {
+  font-weight: 700;
+  font-size: 4em;
+  color: #fff;
+  margin-top: 1%;
+}
