@@ -144,7 +144,7 @@ const LoginScreen = (props: any) => {
         ></CssTextField>
         <Button
           className="submit"
-          style={{ marginBottom: "30%" }}
+          style={{ marginBottom: "10%" }}
           variant="contained"
           onClick={SubmitHandler}
         >
