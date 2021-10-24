@@ -7,7 +7,7 @@ import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import { useCallback, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
-
+import { Fragment } from "react";
 import {
   Button,
   ButtonProps,
@@ -22,6 +22,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import SignUp from "../SignUpPage/SignUp";
 import assert from "assert";
 import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {

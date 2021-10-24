@@ -1,9 +1,12 @@
 import { Icon } from "@blueprintjs/core";
 import {
+  Alert,
+  AlertProps,
   Button,
   ButtonProps,
   FormControl,
   FormHelperText,
+  Snackbar,
   styled,
   TextField,
   useFormControl,
@@ -14,9 +17,11 @@ import ButtonUnstyled, {
   ButtonUnstyledProps,
 } from "@mui/core/ButtonUnstyled";
 import { ReactComponent as GLogo } from "./GLogo.svg";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import * as Realm from "realm-web";
 import { useHistory } from "react-router-dom";
+import MuiAlert from "@mui/material/Alert";
+import Submitted from "./Submitted";
 
 const GoogleButton = styled("button")(`
   background-color: #FFF;
@@ -63,7 +68,11 @@ const CssTextField = styled(TextField)({
 });
 
 const SignUp = () => {
+  const [submitted, setIsSubmitted] = useState(false);
+
   const emailForm = useRef<any>();
+  const [open, setOpen] = useState(false);
+  const [curError, setError] = useState("");
 
   const [email, setEmail] = useState("");
   const passwordForm = useRef<any>();
@@ -74,17 +83,52 @@ const SignUp = () => {
 
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
-    height: "15%",
+    height: "12%",
     fontSize: "1.5em",
-    backgroundColor: "#008f5a",
+    backgroundColor: "#00b472",
     "&:hover": {
-      backgroundColor: "#00fda0",
+      backgroundColor: "#008051",
     },
   }));
 
+  const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const RegisterHandler = () => {
-    setEmail(emailForm.current!.value);
-    setPassword(passwordForm.current!.value);
+    const tempEmail = emailForm.current!.value;
+    const tempPass = passwordForm.current!.value;
+    if (!tempEmail && !tempPass) {
+      openSnackbar("Please Fill All Fields And Try Again");
+    } else if (!tempEmail.includes("@") || !tempEmail.includes(".com")) {
+      openSnackbar("Please Enter A Valid Email");
+    } else if (tempPass.length < 6) {
+      openSnackbar("Password Must Be Greater Than 6 Characters");
+    } else {
+      setIsSubmitted(true);
+    }
+
+    // setEmail(emailForm.current!.value);
+    // setPassword(passwordForm.current!.value);
+  };
+
+  const openSnackbar = (err: any) => {
+    setError(err);
+    setOpen(true);
+    setTimeout(() => {
+      setOpen(false);
+    }, 4000);
   };
 
   useEffect(() => {
@@ -95,50 +139,67 @@ const SignUp = () => {
 
   return (
     <div className="signUpPage">
-      <Icon
-        icon="clipboard"
-        className="cloud"
-        size={110}
-        style={{
-          position: "absolute",
-          fill: "white",
-          paddingLeft: "10px",
-        }}
-      />
-      <Icon icon="clipboard" className="cloud" size={110} />
-      <p className="createText">Create An Account</p>
-      <div className="registerArea">
-        <div className="form">
-          <CssTextField
-            required
-            inputRef={emailForm}
-            label="Email"
-            InputLabelProps={{
-              className: "inputfield",
-              style: { color: "#fff" },
+      {submitted ? (
+        <Submitted submitted={submitted} />
+      ) : (
+        <>
+          <Icon
+            icon="clipboard"
+            className="cloud"
+            size={110}
+            style={{
+              position: "absolute",
+              fill: "white",
+              paddingLeft: "10px",
             }}
-          ></CssTextField>
-          <CssTextField
-            required
-            inputRef={passwordForm}
-            label="Password"
-            InputLabelProps={{
-              className: "inputfield",
-              style: { color: "#fff" },
-            }}
-            type="password"
-          ></CssTextField>
+          />
+          <Icon icon="clipboard" className="cloud" size={110} />
+          <p className="createText">Create An Account</p>
+          <div className="registerArea">
+            <div className="form">
+              <CssTextField
+                required
+                inputRef={emailForm}
+                label="Email"
+                InputLabelProps={{
+                  className: "inputfield",
+                  style: { color: "#fff" },
+                }}
+              ></CssTextField>
+              <CssTextField
+                required
+                inputRef={passwordForm}
+                label="Password"
+                InputLabelProps={{
+                  className: "inputfield",
+                  style: { color: "#fff" },
+                }}
+                type="password"
+              ></CssTextField>
 
-          <ColorButton className="signUp" onClick={RegisterHandler}>
-            Register
-          </ColorButton>
-          <p style={{ color: "#FFF", margin: 0 }}>Or</p>
-          <Button onClick={() => history.push("/")}>Log in with email</Button>
-          <GoogleButton>
-            Sign Up With <GLogo></GLogo>
-          </GoogleButton>
-        </div>
-      </div>
+              <ColorButton className="signUp" onClick={RegisterHandler}>
+                Register
+              </ColorButton>
+              <p style={{ color: "#FFF", margin: 0 }}>Or</p>
+              <Button onClick={() => history.push("/")}>
+                Log in with email
+              </Button>
+              <GoogleButton>
+                Sign Up With <GLogo></GLogo>
+              </GoogleButton>
+              <Snackbar open={open} onClose={handleClose}>
+                <Alert
+                  onClose={handleClose}
+                  severity="error"
+                  sx={{ width: "100%" }}
+                >
+                  {curError}
+                </Alert>
+              </Snackbar>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

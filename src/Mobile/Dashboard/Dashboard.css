@@ -8,3 +8,33 @@
   background-color: #111418;
   text-align: center;
 }
+
+.addUserBox {
+  color: #00b472;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+#unstyled-modal-title {
+  margin-top: 0%;
+}
+.picCircle {
+  width: 88px;
+  border: 2px solid #00b472;
+  height: 88px;
+  border-radius: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.MuiInput-root {
+}
+
+.profileImg {
+  width: 100%;
+}

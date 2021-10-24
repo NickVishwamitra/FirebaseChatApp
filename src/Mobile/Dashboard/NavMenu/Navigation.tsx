@@ -46,7 +46,7 @@ export const Navigtation = (props: any) => {
         <motion.div
           className="background"
           variants={sidebar}
-          style={{ backgroundColor: "#404854" }}
+          style={{ backgroundColor: "#262626" }}
         />
         <NavContents skillRef={props.skillRef} contactRef={props.contactRef} />
         <MenuToggle openObject={props.openObject} />
