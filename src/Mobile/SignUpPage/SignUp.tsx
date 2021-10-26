@@ -74,10 +74,8 @@ const SignUp = () => {
   const [open, setOpen] = useState(false);
   const [curError, setError] = useState("");
 
-  const [email, setEmail] = useState("");
   const passwordForm = useRef<any>();
   const history = useHistory();
-  const [password, setPassword] = useState("");
 
   const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
 
@@ -117,10 +115,11 @@ const SignUp = () => {
       openSnackbar("Password Must Be Greater Than 6 Characters");
     } else {
       setIsSubmitted(true);
+      setTimeout(() => {
+        history.push("/login");
+        history.go(0);
+      }, 4000);
     }
-
-    // setEmail(emailForm.current!.value);
-    // setPassword(passwordForm.current!.value);
   };
 
   const openSnackbar = (err: any) => {
@@ -130,12 +129,6 @@ const SignUp = () => {
       setOpen(false);
     }, 4000);
   };
-
-  useEffect(() => {
-    if (email) {
-      realmApp.emailPasswordAuth.registerUser(email, password);
-    }
-  }, [email]);
 
   return (
     <div className="signUpPage">
@@ -154,7 +147,9 @@ const SignUp = () => {
             }}
           />
           <Icon icon="clipboard" className="cloud" size={110} />
-          <p className="createText">Create An Account</p>
+          <p style={{ maxWidth: "90%" }} className="createText">
+            Create An Account
+          </p>
           <div className="registerArea">
             <div className="form">
               <CssTextField

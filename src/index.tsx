@@ -10,17 +10,30 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io",
-  cache: new InMemoryCache(),
-});
+
+// const client = new ApolloClient({
+//   uri: "https://realm.mongodb.com/api/client/v2.0/app/application-0-nukle/graphql",
+//   cache: new InMemoryCache(),
+// });
+
+// client
+//   .query({
+//     query: gql`
+//       query message {
+//         _id
+//         comment
+//         email
+//         name
+//       }
+//     `,
+//   })
+//   .then((result) => console.log(result));
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </ApolloProvider>,
+  // <ApolloProvider client={client}>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

@@ -75,6 +75,7 @@ const LoginScreen = (props: any) => {
       await realmApp.logIn(credentials);
 
       history.push("/dashboard");
+      history.go(0);
     } catch (err) {
       setOpen(true);
       setTimeout(() => {
@@ -148,6 +149,7 @@ const LoginScreen = (props: any) => {
           Submit
         </Button>
         <p style={{ color: "#FFF" }}>Don't have an account?</p>
+
         <ColorButton className="signUp" onClick={props.handleSignUpOnClick}>
           SIGN UP
         </ColorButton>

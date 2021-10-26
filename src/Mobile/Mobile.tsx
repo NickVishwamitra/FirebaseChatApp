@@ -11,8 +11,22 @@ import * as Realm from "realm-web";
 import { useState } from "react";
 import Dashboard from "./Dashboard/Dashboard";
 import { Button } from "@mui/material";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
 const Mobile = () => {
   const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
+
+  const getMessages = gql`
+    query {
+      userinfo(query: { name: "Nick" }) {
+        _id
+        name
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(getMessages);
+  console.log(data);
 
   const history = useHistory();
   const handleSignUpOnClick = () => {

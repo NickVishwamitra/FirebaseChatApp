@@ -1166,10 +1166,10 @@
   resolved "https://registry.npmjs.org/@blueprintjs/colors/-/colors-4.0.0-alpha.1.tgz"
   integrity sha512-i95xW/cAIijJAMIBDrXw1WLbGVXVaRDRG1Ga0CxOtMVwL20zvdXlQj7EMqhkgVEJo9LaKNIDliPI+jsh7h5Lag==
 
-"@blueprintjs/core@^3.51.2":
-  version "3.51.2"
-  resolved "https://registry.npmjs.org/@blueprintjs/core/-/core-3.51.2.tgz"
-  integrity sha512-Jj7WXbMLJ/D7asi0fzelXUVtDBFCOhpkbJFArSghF0M2ssgnLQbE8r00SWH9l1zeGKdvHt6XzKP4DI4g79RXEg==
+"@blueprintjs/core@^3.51.3":
+  version "3.51.3"
+  resolved "https://registry.npmjs.org/@blueprintjs/core/-/core-3.51.3.tgz"
+  integrity sha512-Z3xGWBMBuboKFx19uxWNAUjITsCmpm+594R/KEAM578uT6yoydT6s5S7N12APAsFe8w3H1Yu2hbWHlHTvRfOhA==
   dependencies:
     "@blueprintjs/colors" "^4.0.0-alpha.1"
     "@blueprintjs/icons" "^3.31.0"
@@ -1192,12 +1192,12 @@
     classnames "^2.2"
     tslib "~1.13.0"
 
-"@blueprintjs/popover2@^0.12.7":
-  version "0.12.7"
-  resolved "https://registry.npmjs.org/@blueprintjs/popover2/-/popover2-0.12.7.tgz"
-  integrity sha512-LAVrCm2Glh3BhJL8vNuGFxZ5/SYJoe1VtykYSfVwxYnrVUgvP8plnQLgXPAyIXLcPfHBtqmSwUx3STP8jfxvvQ==
+"@blueprintjs/popover2@^0.12.8":
+  version "0.12.8"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/popover2/-/popover2-0.12.8.tgz#c9432b68718cbc4ac568a2c472752b7bde09b201"
+  integrity sha512-BuMcrx4BfjRHYfj1qai3gPq+nlI5pnsh0wGAkcindwDSugJYGq+pQh/CEkm6PfX4cQXwBH5yFhhiW/FSPzCs7g==
   dependencies:
-    "@blueprintjs/core" "^3.51.2"
+    "@blueprintjs/core" "^3.51.3"
     "@popperjs/core" "^2.5.4"
     classnames "^2.2"
     dom4 "^2.1.5"

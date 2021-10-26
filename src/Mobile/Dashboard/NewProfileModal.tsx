@@ -85,7 +85,7 @@ const NewProfileModal = () => {
     borderRadius: "1%",
     width: "70vw",
     height: "70vh",
-    minHeight: "70vh",
+    minHeight: "500px",
     bgcolor: "#1C2127",
     p: 2,
     px: 4,
@@ -139,6 +139,7 @@ const NewProfileModal = () => {
             >
               Create Your Profile
             </h2>
+
             <div className="picCircle" onClick={onButtonClick}>
               <input
                 type="file"
@@ -185,6 +186,7 @@ const NewProfileModal = () => {
                 }}
               />
             </div>
+
             <ColorButton onClick={handleSave}>SAVE</ColorButton>
           </Box>
         </Fade>
