@@ -15,6 +15,7 @@
   flex-direction: column;
   align-items: center;
   font-size: 1.5em;
+  gap: 2%;
 }
 
 #unstyled-modal-title {
@@ -24,17 +25,20 @@
   width: 88px;
   border: 2px solid #00b472;
   height: 88px;
-  border-radius: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   overflow: hidden;
-}
-
-.MuiInput-root {
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .profileImg {
   width: 100%;
+}
+
+.modalHeader {
+  display: flex;
 }

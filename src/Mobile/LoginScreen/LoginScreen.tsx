@@ -3,7 +3,6 @@ import * as React from "react";
 import * as Realm from "realm-web";
 
 import { Icon, Intent } from "@blueprintjs/core";
-import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import { useCallback, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
@@ -56,7 +55,6 @@ const LoginScreen = (props: any) => {
   const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
 
   const history = useHistory();
-
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
@@ -65,6 +63,7 @@ const LoginScreen = (props: any) => {
     setOpen(false);
   };
 
+  console.log(realmApp.currentUser);
   const SubmitHandler = async () => {
     const credentials = Realm.Credentials.emailPassword(
       emailForm.current!.value,
@@ -73,11 +72,9 @@ const LoginScreen = (props: any) => {
 
     try {
       // Authenticate the user
-      const user: Realm.User = await realmApp.logIn(credentials);
-      // `App.currentUser` updates to match the logged in user
-      assert(user.id === realmApp.currentUser!.id);
-      history.go(0);
-      return user;
+      await realmApp.logIn(credentials);
+
+      history.push("/dashboard");
     } catch (err) {
       setOpen(true);
       setTimeout(() => {
@@ -85,7 +82,6 @@ const LoginScreen = (props: any) => {
       }, 4000);
     }
   };
-
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
     height: "10%",

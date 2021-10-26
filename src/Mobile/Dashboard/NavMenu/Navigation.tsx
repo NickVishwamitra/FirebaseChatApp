@@ -7,6 +7,7 @@ import { NavContents } from "./NavContents";
 import { useContext } from "react";
 import "./NavStyles.css";
 import { ClickAwayListener } from "@mui/material";
+import * as Realm from "realm-web";
 const sidebar = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,

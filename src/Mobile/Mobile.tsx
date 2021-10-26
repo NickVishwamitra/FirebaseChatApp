@@ -8,20 +8,19 @@ import {
 } from "react-router-dom";
 import SignUp from "./SignUpPage/SignUp";
 import * as Realm from "realm-web";
-import { useRealmApp } from "../RealmApp";
 import { useState } from "react";
 import Dashboard from "./Dashboard/Dashboard";
 import { Button } from "@mui/material";
 const Mobile = () => {
-  const realmApp = useRealmApp();
-  console.log(realmApp.currentUser);
+  const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
+
   const history = useHistory();
   const handleSignUpOnClick = () => {
     history.push("/signup");
     history.go(0);
   };
   const handleLoginOnClick = () => {
-    history.push(`/dashboard/${realmApp.currentUser!.id}`);
+    history.push(`/dashboard`);
   };
   const [userId, setUserId] = useState("");
 
@@ -44,7 +43,7 @@ const Mobile = () => {
         <LoginScreen handleSignUpOnClick={handleSignUpOnClick} />
       </Route>
       <Route path={`/dashboard`}>
-        <Dashboard></Dashboard>
+        {realmApp.currentUser ? <Dashboard></Dashboard> : null}
       </Route>
     </div>
   );

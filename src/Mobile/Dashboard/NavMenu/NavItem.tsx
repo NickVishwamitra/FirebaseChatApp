@@ -4,8 +4,7 @@ import { useContext } from "react";
 import { Button, ButtonProps, buttonUnstyledClasses } from "@mui/material";
 import styled from "@emotion/styled";
 import { useHistory } from "react-router";
-import { useRealmApp } from "../../../RealmApp";
-
+import { realmApp } from "../../../App";
 const variants = {
   open: {
     y: 0,
@@ -38,18 +37,21 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
 }));
 
 export const NavItem = ({ props, i }: { i: any; props: any }) => {
-  const realmApp = useRealmApp();
   const history = useHistory();
   const clickHandler = (i: any) => {
     setSelected(i);
   };
   const [selected, setSelected] = React.useState(-1);
-  console.log(i);
   const style = {
     border: `2px solid ${colors[i]}`,
     display: "flex",
     justifyContent: "center",
     height: "8vh",
+  };
+
+  const logout = async () => {
+    await realmApp.currentUser?.logOut();
+    history.push("/login");
   };
 
   let Buttons;
@@ -77,13 +79,7 @@ export const NavItem = ({ props, i }: { i: any; props: any }) => {
       break;
     case 4:
       Buttons = (
-        <Button
-          variant="contained"
-          onClick={() => {
-            realmApp.currentUser?.logOut();
-            history.go(0);
-          }}
-        >
+        <Button variant="contained" color="error" onClick={logout}>
           <p>Log Out</p>
         </Button>
       );

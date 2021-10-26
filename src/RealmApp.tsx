@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import * as Realm from "realm-web";
 
-const RealmAppContext = createContext<Partial<Realm.App>>({});
+const RealmAppContext = createContext<Partial<Realm.App>>(
+  Realm.App.getApp("application-0-nukle")
+);
 
 export const useRealmApp = () => {
   const app = useContext(RealmAppContext);
@@ -34,7 +36,7 @@ export const RealmAppProvider = ({
   };
   const logOut = async () => {
     await app.currentUser?.logOut();
-    setCurrentUser(app.currentUser);
+    setCurrentUser(null);
   };
 
   const wrapped = { ...app, currentUser, logIn, logOut };
