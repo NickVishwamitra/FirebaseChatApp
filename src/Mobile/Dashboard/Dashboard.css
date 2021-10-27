@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 .dashboardPage {
   height: 100vh;
   width: 100vw;
@@ -42,4 +43,29 @@
 
 .modalHeader {
   display: flex;
+}
+
+.appTitle {
+  font-family: "Pacifico";
+  color: #00b472;
+  font-size: 4em;
+  justify-self: flex-start;
+  text-shadow: 2px 1px rgba(255, 255, 255, 0.719);
+}
+
+.searchInput {
+  margin-top: 3%;
+  width: 90%;
+}
+
+.chatsSectionContainer {
+  width: 90%;
+  height: 10%;
+  margin-top: 1%;
+  border-radius: 8%;
+  display: flex;
+  align-items: center;
+  gap: 8%;
+  justify-content: space-between;
+  overflow: scroll;
 }

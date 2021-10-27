@@ -22,6 +22,8 @@ import * as Realm from "realm-web";
 import { useHistory } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import Submitted from "./Submitted";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
 
 const GoogleButton = styled("button")(`
   background-color: #FFF;
@@ -115,12 +117,27 @@ const SignUp = () => {
       openSnackbar("Password Must Be Greater Than 6 Characters");
     } else {
       setIsSubmitted(true);
+      realmApp.emailPasswordAuth.registerUser(tempEmail, tempPass);
       setTimeout(() => {
         history.push("/login");
         history.go(0);
       }, 4000);
     }
   };
+
+  // const currentUserid = realmApp.currentUser?.id;
+
+  // const addUserInfo = gql`
+  //   query ($userid: String!) {
+  //     userinfo(query: { userid: $userid }) {
+  //       userid
+  //     }
+  //   }
+  // `;
+
+  // const registerFetch = useQuery(addUserInfo, {
+  //   variables: { userid: currentUserid },
+  // });
 
   const openSnackbar = (err: any) => {
     setError(err);

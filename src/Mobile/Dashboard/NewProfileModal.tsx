@@ -3,12 +3,14 @@ import { ModalUnstyled } from "@mui/core";
 import { Button, ButtonProps, Fade, TextField } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { Box, styled } from "@mui/system";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BSON } from "realm-web";
 import "./Dashboard.css";
 import * as Realm from "realm-web";
 import { useRealmApp } from "../../RealmApp";
 import { Services } from "realm";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useHistory } from "react-router";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -64,23 +66,20 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   marginTop: "5%",
 }));
 
-const NewProfileModal = () => {
+const NewProfileModal = (props: any) => {
   const inputFile = useRef<any>(null);
   const nameForm = useRef<any>();
   const phoneForm = useRef<any>();
   const usernameForm = useRef<any>();
-
-  const [open, setOpen] = useState(true);
+  const { modalIsOpen, setModalIsOpen } = props.isOpen;
   const [file, setFile] = useState();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => setModalIsOpen(true);
+  const handleClose = () => setModalIsOpen(false);
   const app = useRealmApp();
-  console.log();
-
+  const history = useHistory();
   const mongodb = app.currentUser?.mongoClient("messenger");
   const users = mongodb?.db("users").collection<any>("userinfo");
   type InsertOneResult = Services.MongoDB.InsertOneResult<BSON.ObjectId>;
-  const curUser = app.currentUser?.id;
   const style = {
     borderRadius: "1%",
     width: "70vw",
@@ -92,21 +91,54 @@ const NewProfileModal = () => {
     pb: 3,
   };
 
-  const insertUser = () => {};
+  const addUser = gql`
+    mutation (
+      $name: String!
+      $username: String = ""
+      $phone: Float = 0
+      $userid: String!
+      $profilepic: String = ""
+    ) {
+      insertOneUserinfo(
+        data: {
+          name: $name
+          username: $username
+          phone: $phone
+          userid: $userid
+          profilepic: $profilepic
+        }
+      ) {
+        _id
+        name
+        phone
+        userid
+        username
+        profilepic
+      }
+    }
+  `;
+  const [mutateFunction, { data, loading, error }] = useMutation(addUser);
+  const insertUser = () => {
+    try {
+      mutateFunction({
+        variables: {
+          name: nameForm.current!.value == "" ? null : nameForm.current!.value,
+          username: usernameForm.current!.value,
+          phone: Number(phoneForm.current!.value),
+          userid: app.currentUser?.id,
+          profilepic: file,
+        },
+      });
+      handleClose();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const onButtonClick = () => {
     // `current` points to the mounted file input element
 
     inputFile.current!.click();
-  };
-  const handleSave = async () => {
-    // const result = await users?.insertOne({
-    //   name: "Nick",
-    //   userid: curUser,
-    //   profileCreated: true,
-    // });
-    console.log(app.currentUser?.customData);
-    handleClose();
   };
 
   const handleFileSelected = (e: any) => {
@@ -119,10 +151,10 @@ const NewProfileModal = () => {
     reader.readAsDataURL(files);
   };
 
-  return open ? (
+  return modalIsOpen ? (
     <Backdrop>
       <StyledModal
-        open={open}
+        open={modalIsOpen}
         onClose={handleClose}
         closeAfterTransition
         BackdropProps={
@@ -131,7 +163,7 @@ const NewProfileModal = () => {
           }
         }
       >
-        <Fade in={open}>
+        <Fade in={modalIsOpen}>
           <Box sx={style} className="addUserBox">
             <h2
               id="unstyled-modal-title"
@@ -165,6 +197,7 @@ const NewProfileModal = () => {
             >
               <CssTextField
                 label="Name"
+                inputRef={nameForm}
                 InputLabelProps={{
                   className: "inputfield",
                   style: { color: "#fff" },
@@ -173,6 +206,8 @@ const NewProfileModal = () => {
               />
               <CssTextField
                 label="Phone Number"
+                type="number"
+                inputRef={phoneForm}
                 InputLabelProps={{
                   className: "inputfield",
                   style: { color: "#fff" },
@@ -180,6 +215,7 @@ const NewProfileModal = () => {
               />
               <CssTextField
                 label="Username"
+                inputRef={usernameForm}
                 InputLabelProps={{
                   className: "inputfield",
                   style: { color: "#fff" },
@@ -187,7 +223,7 @@ const NewProfileModal = () => {
               />
             </div>
 
-            <ColorButton onClick={handleSave}>SAVE</ColorButton>
+            <ColorButton onClick={insertUser}>SAVE</ColorButton>
           </Box>
         </Fade>
       </StyledModal>

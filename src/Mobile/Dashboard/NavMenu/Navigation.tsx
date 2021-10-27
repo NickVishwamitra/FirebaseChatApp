@@ -18,7 +18,7 @@ const sidebar = {
     },
   }),
   closed: {
-    clipPath: "circle(25px at 40px 40px)",
+    clipPath: "circle(0px at 50px 60px)",
     transition: {
       delay: 0.5,
       type: "spring",
@@ -49,7 +49,12 @@ export const Navigtation = (props: any) => {
           variants={sidebar}
           style={{ backgroundColor: "#262626" }}
         />
-        <NavContents skillRef={props.skillRef} contactRef={props.contactRef} />
+        {isOpen ? (
+          <NavContents
+            skillRef={props.skillRef}
+            contactRef={props.contactRef}
+          />
+        ) : null}
         <MenuToggle openObject={props.openObject} />
       </motion.nav>
     </ClickAwayListener>
