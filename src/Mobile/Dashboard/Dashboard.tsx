@@ -5,7 +5,7 @@ import { useCycle } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useRealmApp } from "../../RealmApp";
-import "./Dashboard.css";
+import "./Dashboard.scss";
 import { Navigtation } from "./NavMenu/Navigation";
 import NewProfileModal from "./NewProfileModal";
 

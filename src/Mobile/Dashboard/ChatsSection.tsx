@@ -1,4 +1,4 @@
-import "./Dashboard.css";
+import "./Dashboard.scss";
 import { PlusIcon } from "@modulz/radix-icons";
 import { Avatar, Card, Popover, Tooltip, useMantineTheme } from "@mantine/core";
 import { useState } from "react";

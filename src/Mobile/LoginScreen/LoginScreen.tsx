@@ -1,4 +1,4 @@
-import "./LoginScreen.css";
+import "./LoginScreen.scss";
 import * as React from "react";
 import * as Realm from "realm-web";
 

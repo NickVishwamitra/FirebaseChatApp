@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import "./SignUp.css";
+import "./SignUp.scss";
 import { Check } from "phosphor-react";
 const Submitted = (props: any) => {
   return (

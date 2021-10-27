@@ -5,7 +5,7 @@ import { green } from "@mui/material/colors";
 import { Box, styled } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
 import { BSON } from "realm-web";
-import "./Dashboard.css";
+import "./Dashboard.scss";
 import * as Realm from "realm-web";
 import { useRealmApp } from "../../RealmApp";
 import { Services } from "realm";

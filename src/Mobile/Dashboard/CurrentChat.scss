@@ -1,0 +1,29 @@
+.chatCard {
+  width: 90%;
+  height: 50em;
+  position: relative;
+  border-radius: 2%;
+}
+
+.currentChatDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  min-height: 70vh;
+  height: 80vh;
+}
+
+.messagesArea {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  height: 65vh;
+}
+
+.inputField {
+  justify-self: flex-end;
+}
+
+.messages {
+  height: 90%;
+}

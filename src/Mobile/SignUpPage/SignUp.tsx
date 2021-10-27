@@ -11,7 +11,7 @@ import {
   TextField,
   useFormControl,
 } from "@mui/material";
-import "./SignUp.css";
+import "./SignUp.scss";
 import ButtonUnstyled, {
   buttonUnstyledClasses,
   ButtonUnstyledProps,
