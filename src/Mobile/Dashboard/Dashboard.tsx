@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { TextInput } from "@mantine/core";
+import { LoadingOverlay, TextInput } from "@mantine/core";
 import { Button } from "@mui/material";
 import { useCycle } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
@@ -11,13 +11,14 @@ import NewProfileModal from "./NewProfileModal";
 
 import { MagnifyingGlassIcon } from "@modulz/radix-icons";
 import ChatsSection from "./ChatsSection";
+import CurrentChat from "./CurrentChat";
 let useridregistered = "";
 
 const Dashboard = () => {
   document.body.style.overflow = "hidden";
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
-
+  const [overlayLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const realmApp = useRealmApp();
   const currentUserid = realmApp.currentUser?.id;
@@ -29,6 +30,9 @@ const Dashboard = () => {
     }
   `;
 
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 1500);
   const { loading, error, data } = useQuery(checkIsProfileCreated, {
     variables: { userid: currentUserid },
   });
@@ -43,7 +47,14 @@ const Dashboard = () => {
       {useridregistered ? null : (
         <NewProfileModal isOpen={{ modalIsOpen, setModalIsOpen }} />
       )}
-      <div className="appTitle">Scoop</div>
+      <div
+        className="appTitle"
+        onClick={() => {
+          history.go(0);
+        }}
+      >
+        Scoop
+      </div>
       <TextInput
         className="searchInput"
         styles={{
@@ -58,6 +69,7 @@ const Dashboard = () => {
         radius="lg"
       ></TextInput>
       <ChatsSection />
+      <CurrentChat></CurrentChat>
     </div>
   );
 };

@@ -13,6 +13,7 @@
     "@modulz/radix-icons": "^4.0.0",
     "@mui/core": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
+    "@nextui-org/react": "^1.0.1-alpha.55",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

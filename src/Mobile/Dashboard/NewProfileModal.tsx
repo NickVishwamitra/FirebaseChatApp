@@ -73,6 +73,7 @@ const NewProfileModal = (props: any) => {
   const usernameForm = useRef<any>();
   const { modalIsOpen, setModalIsOpen } = props.isOpen;
   const [file, setFile] = useState();
+  const [display, setDisplay] = useState("none");
   const handleOpen = () => setModalIsOpen(true);
   const handleClose = () => setModalIsOpen(false);
   const app = useRealmApp();
@@ -151,9 +152,13 @@ const NewProfileModal = (props: any) => {
     reader.readAsDataURL(files);
   };
 
+  setTimeout(() => {
+    setDisplay("flex");
+  }, 1500);
   return modalIsOpen ? (
     <Backdrop>
       <StyledModal
+        style={{ display: display }}
         open={modalIsOpen}
         onClose={handleClose}
         closeAfterTransition

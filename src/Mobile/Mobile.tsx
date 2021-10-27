@@ -8,9 +8,10 @@ import {
 } from "react-router-dom";
 import SignUp from "./SignUpPage/SignUp";
 import * as Realm from "realm-web";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Dashboard from "./Dashboard/Dashboard";
 import { Button } from "@mui/material";
+import LoadingScreen from "./LoadingScreen";
 
 const Mobile = () => {
   const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
@@ -29,7 +30,9 @@ const Mobile = () => {
     <div>
       <Route exact path="/">
         {realmApp.currentUser ? (
-          <Dashboard></Dashboard>
+          <Fragment>
+            <Dashboard></Dashboard>
+          </Fragment>
         ) : (
           <LoginScreen
             handleSignUpOnClick={handleSignUpOnClick}

@@ -1,7 +1,8 @@
 import "./Dashboard.css";
 import { PlusIcon } from "@modulz/radix-icons";
-import { Avatar } from "@mantine/core";
-const AddPersonAvatar = (
+import { Avatar, Card, Popover, Tooltip, useMantineTheme } from "@mantine/core";
+import { useState } from "react";
+const AddPersonAvatar = () => (
   <Avatar
     radius="xl"
     size="lg"
@@ -14,8 +15,9 @@ const AddPersonAvatar = (
     <PlusIcon style={{ transform: "scale(1.5)", color: "#00b472" }} />
   </Avatar>
 );
-const EmptyAvatar = (
+const EmptyAvatar = (props: any) => (
   <Avatar
+    {...props}
     radius="xl"
     size="lg"
     styles={{
@@ -28,14 +30,15 @@ const EmptyAvatar = (
   </Avatar>
 );
 const ChatsSection = () => {
+  const [opened, setOpened] = useState(false);
   return (
     <div className="chatsSectionContainer">
-      {AddPersonAvatar}
-      {EmptyAvatar}
-      {EmptyAvatar}
-      {EmptyAvatar}
-      {EmptyAvatar}
-      {EmptyAvatar}
+      <AddPersonAvatar />
+      <EmptyAvatar />
+      <EmptyAvatar />
+      <EmptyAvatar />
+      <EmptyAvatar />
+      <EmptyAvatar />
     </div>
   );
 };

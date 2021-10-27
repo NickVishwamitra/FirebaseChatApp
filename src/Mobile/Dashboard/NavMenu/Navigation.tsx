@@ -39,6 +39,7 @@ export const Navigtation = (props: any) => {
       }}
     >
       <motion.nav
+        style={isOpen ? { zIndex: 999 } : { zIndex: 0 }}
         initial={false}
         animate={isOpen ? "open" : "closed"}
         custom={height}
