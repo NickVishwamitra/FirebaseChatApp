@@ -1,8 +1,9 @@
 .chatCard {
   width: 90%;
-  height: 50em;
+  height: 28em;
   position: relative;
   border-radius: 2%;
+  top: -12%;
   z-index: 10;
 }
 
@@ -12,14 +13,12 @@
   padding: 5%;
   padding-top: 15%;
   min-height: 70vh;
-  height: 80vh;
+  height: 100%;
 }
 
 .messagesArea {
   display: flex;
   flex-direction: column;
-  min-height: 60vh;
-  height: 72vh;
 }
 
 .inputField {
