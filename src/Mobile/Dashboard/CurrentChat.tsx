@@ -7,9 +7,9 @@ const CurrentChat = () => {
 
   return (
     <motion.div
-      style={{ backgroundColor: "#252A31", y, top: "40em" }}
+      style={{ backgroundColor: "#252A31", y, top: "33em" }}
       className="chatCard"
-      dragConstraints={{ top: -550, bottom: 0 }}
+      dragConstraints={{ top: -510, bottom: 0 }}
       drag="y"
     >
       <div className="currentChatDiv">
