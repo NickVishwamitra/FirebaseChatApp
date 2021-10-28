@@ -11,7 +11,7 @@ import NewProfileModal from "./NewProfileModal";
 
 import { MagnifyingGlassIcon } from "@modulz/radix-icons";
 import ChatsSection from "./ChatsSection";
-import CurrentChat from "./CurrentChat";
+import Feed from "./Feed/Feed";
 let useridregistered = "";
 
 const Dashboard = () => {
@@ -69,7 +69,7 @@ const Dashboard = () => {
         radius="lg"
       ></TextInput>
       <ChatsSection />
-      <CurrentChat></CurrentChat>
+      <Feed />
     </div>
   );
 };

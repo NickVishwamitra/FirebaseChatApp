@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap");
+
+$primary: #00b472;
+
+.timelineSection {
+  height: 55%;
+  width: 90%;
+  background-color: rgba(37, 42, 49, 0.6);
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.feedTitle {
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  text-align: left;
+  font-size: 1.5em;
+  color: #00b472;
+  margin-bottom: 0;
+  padding: 2% 10%;
+  // text-align;
+}
+
+.divider {
+  width: 80%;
+  height: 1%;
+  margin-left: 10%;
+  background-color: #00b472;
+}
+
+.feed {
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  height: 80%;
+  width: 80%;
+  padding: 10%;
+  padding-top: 5%;
+  overflow: scroll;
+}
+.feed::-webkit-scrollbar {
+  display: none;
+}
+
+.postContainer {
+  display: flex;
+}
+
+.postText {
+  font-weight: 400;
+  text-align: left;
+  line-height: 1;
+  margin-top: 0;
+  color: #ffffffb2;
+}
+
+.postTitle {
+  margin-bottom: 5%;
+  text-align: left;
+  color: $primary;
+}
+
+.postDivider {
+  width: 90%;
+  height: 0.5%;
+  margin-left: 5%;
+  background-color: #fff;
+  margin-bottom: 5%;
+}
