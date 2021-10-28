@@ -12,6 +12,7 @@ import NewProfileModal from "./NewProfileModal";
 import { MagnifyingGlassIcon } from "@modulz/radix-icons";
 import ChatsSection from "./ChatsSection";
 import Feed from "./Feed/Feed";
+import CurrentChat from "./CurrentChat/CurrentChat";
 let useridregistered = "";
 
 const Dashboard = () => {

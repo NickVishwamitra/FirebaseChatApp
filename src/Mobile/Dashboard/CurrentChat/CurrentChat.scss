@@ -1,0 +1,24 @@
+.modal {
+  background: none;
+  height: 80vh;
+  display: none;
+}
+
+.name {
+}
+
+.avatarContainer {
+  display: flex;
+  //   flex-direction: column;
+  gap: 0.25em;
+  color: white;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.avatarIcon {
+  font-size: 2.5rem;
+}
+
+.messagesContainer {
+}

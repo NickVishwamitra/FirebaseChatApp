@@ -1,9 +1,12 @@
 import "./Dashboard.scss";
 import { PlusIcon } from "@modulz/radix-icons";
 import { Avatar, Card, Popover, Tooltip, useMantineTheme } from "@mantine/core";
-import { useState } from "react";
-const AddPersonAvatar = () => (
+import { forwardRef, Ref, useState } from "react";
+import { motion } from "framer-motion";
+import CurrentChat from "./CurrentChat/CurrentChat";
+const AddPersonAvatar = forwardRef((props: any, ref: any) => (
   <Avatar
+    ref={ref}
     radius="xl"
     size="lg"
     styles={{
@@ -14,10 +17,14 @@ const AddPersonAvatar = () => (
   >
     <PlusIcon style={{ transform: "scale(1.5)", color: "#00b472" }} />
   </Avatar>
-);
-const EmptyAvatar = (props: any) => (
+));
+
+const MotionAddAvatar = motion(AddPersonAvatar);
+
+const EmptyAvatar = forwardRef((props: any, ref: any) => (
   <Avatar
     {...props}
+    ref={ref}
     radius="xl"
     size="lg"
     styles={{
@@ -28,17 +35,22 @@ const EmptyAvatar = (props: any) => (
   >
     <p></p>
   </Avatar>
-);
-const ChatsSection = () => {
+));
+
+const ChatsSection = (props: any) => {
   const [opened, setOpened] = useState(false);
   return (
     <div className="chatsSectionContainer">
-      <AddPersonAvatar />
+      <MotionAddAvatar
+        whileTap={{ scale: 0.7 }}
+        onTap={() => setOpened(true)}
+      />
       <EmptyAvatar />
       <EmptyAvatar />
       <EmptyAvatar />
       <EmptyAvatar />
       <EmptyAvatar />
+      <CurrentChat openedObject={{ opened, setOpened }} />
     </div>
   );
 };

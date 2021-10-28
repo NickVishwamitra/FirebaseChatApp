@@ -12,13 +12,15 @@ $primary: #00b472;
 }
 
 .feedTitle {
-  font-family: "Source Sans Pro";
+  font-family: "pacifico";
   font-weight: 600;
   text-align: left;
   font-size: 1.5em;
   color: #00b472;
   margin-bottom: 0;
   padding: 2% 10%;
+  margin-top: 3%;
+
   // text-align;
 }
 
@@ -55,9 +57,10 @@ $primary: #00b472;
 }
 
 .postTitle {
-  margin-bottom: 5%;
+  margin-bottom: 8%;
   text-align: left;
   color: $primary;
+  margin-top: 3%;
 }
 
 .postDivider {
@@ -66,4 +69,5 @@ $primary: #00b472;
   margin-left: 5%;
   background-color: #fff;
   margin-bottom: 5%;
+  opacity: 0.5;
 }

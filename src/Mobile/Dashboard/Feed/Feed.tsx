@@ -13,6 +13,18 @@ const Feed = () => {
         <div className="postDivider"></div>
         <Post></Post>
         <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
+        <Post></Post>
+        <div className="postDivider"></div>
       </div>
     </div>
   );

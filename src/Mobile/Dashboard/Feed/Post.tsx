@@ -5,17 +5,23 @@ const Post = () => {
   return (
     <div className="postContainer">
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <Avatar radius="md"></Avatar>
+        <Avatar
+          radius="xl"
+          style={{ marginBottom: "5%" }}
+          color="green"
+        ></Avatar>
         <p
           style={{
             color: "white",
-            lineHeight: "1",
+            lineHeight: "1.25",
             fontWeight: 400,
             textAlign: "left",
             margin: "5%",
+            inlineSize: "90px",
+            overflowWrap: "break-word",
           }}
         >
-          Nick Vshwmaitra
+          Nick Vishwamitra
         </p>
       </div>
       <div
@@ -24,6 +30,7 @@ const Post = () => {
           flexDirection: "column",
           lineHeight: "0",
           marginLeft: "10%",
+          minWidth: "50%",
         }}
       >
         <p className="postTitle">Post Title</p>
