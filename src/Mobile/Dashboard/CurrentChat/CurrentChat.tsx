@@ -1,4 +1,5 @@
 import { Avatar, Card, Input, Modal, Text } from "@nextui-org/react";
+import ChatBubble from "./ChatBubble";
 import "./CurrentChat.scss";
 const CurrentChat = (props: any) => {
   const openObject = props.openedObject;
@@ -30,11 +31,15 @@ const CurrentChat = (props: any) => {
           style={{
             background: "none",
             height: "100%",
-            borderColor: "rgba(255,255,255,0.2)",
+            borderColor: "rgba(255,255,255,0.1)",
+            paddingRight: " 15%",
+            overflowY: "scroll",
           }}
           className="messagesContainer"
         >
-          <Text color="white">Testing</Text>
+          <Card.Body>
+            <ChatBubble />
+          </Card.Body>
         </Card>
       </Modal.Body>
       <Modal.Footer>

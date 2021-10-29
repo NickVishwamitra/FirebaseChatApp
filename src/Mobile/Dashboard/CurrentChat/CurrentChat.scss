@@ -1,7 +1,8 @@
 .modal {
   background: none;
-  height: 80vh;
+  height: 70vh;
   display: none;
+  overflow-x: none;
 }
 
 .name {
@@ -10,7 +11,7 @@
 .avatarContainer {
   display: flex;
   //   flex-direction: column;
-  gap: 0.25em;
+  gap: 0.5em;
   color: white;
   align-items: center;
   font-size: 1.5rem;
@@ -21,4 +22,10 @@
 }
 
 .messagesContainer {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  height: 100%;
+  width: 100%;
+  overflow-x: none;
 }
