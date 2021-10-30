@@ -21,10 +21,15 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import Submitted from "./Submitted";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
-const GoogleButton = styled("button")(`
+export const GoogleButton = styled("button")(`
   background-color: #FFF;
   padding: 10px 20px;
   border-radius: 20px;
@@ -101,6 +106,35 @@ const SignUp = () => {
     }
 
     setOpen(false);
+  };
+
+  const googleSignIn = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+        setIsSubmitted(true);
+        setTimeout(() => {
+          history.push("/login");
+          history.go(0);
+        }, 2000);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   const RegisterHandler = () => {
@@ -191,9 +225,6 @@ const SignUp = () => {
               <Button onClick={() => history.push("/")}>
                 Log in with email
               </Button>
-              <GoogleButton>
-                Sign Up With <GLogo></GLogo>
-              </GoogleButton>
               <Snackbar open={open} onClose={handleClose}>
                 <Alert
                   onClose={handleClose}

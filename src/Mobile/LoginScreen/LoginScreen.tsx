@@ -16,11 +16,19 @@ import {
   styled,
 } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-
+import { ReactComponent as GLogo } from "../SignUpPage/GLogo.svg";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { initializeApp } from "@firebase/app";
+
+import { GoogleButton } from "../SignUpPage/SignUp";
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     width: "100%",
@@ -51,6 +59,31 @@ const LoginScreen = (props: any) => {
     }
 
     setOpen(false);
+  };
+
+  const googleSignIn = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        history.push("/dashboard");
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   const SubmitHandler = async () => {
@@ -132,15 +165,15 @@ const LoginScreen = (props: any) => {
             e.key == "Enter" ? SubmitHandler() : console.log("");
           }}
         ></CssTextField>
-        <Button
-          className="submit"
-          style={{ marginBottom: "10%" }}
-          variant="contained"
-          onClick={SubmitHandler}
-        >
+        <Button className="submit" variant="contained" onClick={SubmitHandler}>
           Submit
         </Button>
-        <p style={{ color: "#FFF" }}>Don't have an account?</p>
+        <GoogleButton onClick={googleSignIn}>
+          Sign In With <GLogo></GLogo>
+        </GoogleButton>
+        <p style={{ color: "#FFF", marginBottom: " 0" }}>
+          Don't have an account?
+        </p>
 
         <ColorButton className="signUp" onClick={props.handleSignUpOnClick}>
           SIGN UP
