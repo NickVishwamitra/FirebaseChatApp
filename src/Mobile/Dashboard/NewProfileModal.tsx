@@ -4,13 +4,33 @@ import { Button, ButtonProps, Fade, TextField } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { Box, styled } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
-import { BSON } from "realm-web";
 import "./Dashboard.scss";
-import * as Realm from "realm-web";
-import { useRealmApp } from "../../RealmApp";
-import { Services } from "realm";
-import { gql, useMutation, useQuery } from "@apollo/client";
 import { useHistory } from "react-router";
+import { initializeApp } from "firebase/app";
+import { getDatabase, onValue, ref, set } from "firebase/database";
+import { firebaseConfig } from "../../firebase";
+import { getAuth } from "@firebase/auth";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const firebaseDB = getDatabase();
+const auth = getAuth();
+const writeUserData = (
+  userid: string,
+  name: string,
+  email: string,
+  profilepic: string,
+  phone: any,
+  username: string
+) => {
+  set(ref(firebaseDB, `userdata/${userid}`), {
+    username: username,
+    email: email,
+    profilepic: profilepic,
+    name: name,
+    phone: phone,
+    userid: userid,
+  });
+};
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -74,13 +94,23 @@ const NewProfileModal = (props: any) => {
   const { modalIsOpen, setModalIsOpen } = props.isOpen;
   const [file, setFile] = useState("");
   const [display, setDisplay] = useState("none");
+  const [isRegistered, setisRegistered] = useState(false);
   const handleOpen = () => setModalIsOpen(true);
   const handleClose = () => setModalIsOpen(false);
-  const app = useRealmApp();
   const history = useHistory();
-  const mongodb = app.currentUser?.mongoClient("messenger");
-  const chats = mongodb?.db("chats").collection<any>("userChats");
-  type InsertOneResult = Services.MongoDB.InsertOneResult<BSON.ObjectId>;
+
+  const checkRegistered = () => {
+    const userid = auth.currentUser?.uid || null;
+    const userdataref = ref(firebaseDB, `userdata/${userid}`);
+    onValue(userdataref, (snapshot: any) => {
+      const data = snapshot.val();
+      try {
+        data.userid === userid
+          ? setisRegistered(true)
+          : console.log("User Not Registered");
+      } catch (_err) {}
+    });
+  };
   const style = {
     borderRadius: "1%",
     width: "70vw",
@@ -92,48 +122,16 @@ const NewProfileModal = (props: any) => {
     pb: 3,
   };
 
-  const addUser = gql`
-    mutation (
-      $name: String!
-      $phone: Float
-      $username: String
-      $userid: String!
-      $profilepic: String
-      $email: String
-    ) {
-      insertOneUserChat(
-        data: {
-          name: $name
-          phone: $phone
-          username: $username
-          userid: $userid
-          profilepic: $profilepic
-          email: $email
-        }
-      ) {
-        _id
-        userid
-        username
-        phone
-        name
-        profilepic
-        email
-      }
-    }
-  `;
-  const [mutateFunction] = useMutation(addUser);
   const insertUser = () => {
     try {
-      mutateFunction({
-        variables: {
-          name: nameForm.current!.value == "" ? null : nameForm.current!.value,
-          username: usernameForm.current!.value,
-          phone: Number(phoneForm.current!.value),
-          userid: app.currentUser?.id,
-          profilepic: file,
-          email: app.currentUser?.profile.email,
-        },
-      });
+      const username = usernameForm.current?.value;
+      const phone = phoneForm.current?.value;
+      const name = nameForm.current?.value;
+      const profilepic = file;
+      const userid = String(auth.currentUser?.uid);
+      const email = String(auth.currentUser?.email);
+
+      writeUserData(userid, name, email, profilepic, phone, username);
       handleClose();
     } catch (err) {
       console.log(err);
@@ -156,10 +154,14 @@ const NewProfileModal = (props: any) => {
     reader.readAsDataURL(files);
   };
 
+  useEffect(() => {
+    checkRegistered();
+  });
+  console.log(isRegistered);
   setTimeout(() => {
     setDisplay("flex");
-  }, 1500);
-  return modalIsOpen ? (
+  }, 2500);
+  return !isRegistered ? (
     <Backdrop>
       <StyledModal
         style={{ display: display }}

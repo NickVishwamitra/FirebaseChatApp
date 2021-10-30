@@ -1,6 +1,5 @@
 import "./LoginScreen.scss";
 import * as React from "react";
-import * as Realm from "realm-web";
 
 import { Icon, Intent } from "@blueprintjs/core";
 import { useCallback, useRef, useState } from "react";
@@ -18,11 +17,10 @@ import {
 } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import SignUp from "../SignUpPage/SignUp";
-import assert from "assert";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "@firebase/app";
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     width: "100%",
@@ -42,17 +40,9 @@ const CssTextField = styled(TextField)({
 
 const LoginScreen = (props: any) => {
   const [open, setOpen] = React.useState(false);
-
   const emailForm = useRef<any>();
 
-  const [email, setEmail] = useState("");
   const passwordForm = useRef<any>();
-
-  const [password, setPassword] = useState("");
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
 
   const history = useHistory();
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -63,26 +53,28 @@ const LoginScreen = (props: any) => {
     setOpen(false);
   };
 
-  console.log(realmApp.currentUser);
   const SubmitHandler = async () => {
-    const credentials = Realm.Credentials.emailPassword(
-      emailForm.current!.value,
-      passwordForm.current!.value
-    );
-
-    try {
-      // Authenticate the user
-      await realmApp.logIn(credentials);
-
-      history.push("/dashboard");
-      history.go(0);
-    } catch (err) {
-      setOpen(true);
-      setTimeout(() => {
-        setOpen(false);
-      }, 4000);
-    }
+    const email = emailForm.current!.value;
+    const password = passwordForm.current!.value;
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        history.push("/dashboard");
+        history.go(0);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+        }, 4000);
+      });
   };
+
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
     height: "10%",

@@ -7,16 +7,15 @@ import {
   useHistory,
 } from "react-router-dom";
 import SignUp from "./SignUpPage/SignUp";
-import * as Realm from "realm-web";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Dashboard from "./Dashboard/Dashboard";
 import { Button } from "@mui/material";
 import LoadingScreen from "./LoadingScreen";
+import { getAuth } from "@firebase/auth";
 
 const Mobile = () => {
-  const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
-
   const history = useHistory();
+
   const handleSignUpOnClick = () => {
     history.push("/signup");
     history.go(0);
@@ -25,11 +24,11 @@ const Mobile = () => {
     history.push(`/dashboard`);
   };
   const [userId, setUserId] = useState("");
-
+  // useEffect(() => setUserId(String(auth.currentUser?.uid)));
   return (
     <div>
       <Route exact path="/">
-        {realmApp.currentUser ? (
+        {true ? (
           <Fragment>
             <Dashboard></Dashboard>
           </Fragment>
@@ -47,7 +46,7 @@ const Mobile = () => {
         <LoginScreen handleSignUpOnClick={handleSignUpOnClick} />
       </Route>
       <Route path={`/dashboard`}>
-        {realmApp.currentUser ? <Dashboard></Dashboard> : null}
+        <Dashboard />
       </Route>
     </div>
   );

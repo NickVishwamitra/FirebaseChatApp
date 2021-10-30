@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { Button, ButtonProps, buttonUnstyledClasses } from "@mui/material";
 import styled from "@emotion/styled";
 import { useHistory } from "react-router";
-import { realmApp } from "../../../App";
 const variants = {
   open: {
     y: 0,
@@ -50,7 +49,14 @@ export const NavItem = ({ props, i }: { i: any; props: any }) => {
   };
 
   const logout = async () => {
-    await realmApp.currentUser?.logOut();
+    // const auth = getAuth();
+    // signOut(auth)
+    //   .then(() => {
+    //     // Sign-out successful.
+    //   })
+    //   .catch((_error) => {
+    //     // An error happened.
+    //   });
     history.push("/login");
   };
 

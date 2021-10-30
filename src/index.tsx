@@ -3,13 +3,6 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from "@apollo/client";
 
 // const client = new ApolloClient({
 //   uri: "https://realm.mongodb.com/api/client/v2.0/app/application-0-nukle/graphql",

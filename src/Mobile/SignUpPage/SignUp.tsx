@@ -18,12 +18,11 @@ import ButtonUnstyled, {
 } from "@mui/core/ButtonUnstyled";
 import { ReactComponent as GLogo } from "./GLogo.svg";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import * as Realm from "realm-web";
 import { useHistory } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import Submitted from "./Submitted";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
 const GoogleButton = styled("button")(`
   background-color: #FFF;
@@ -79,8 +78,6 @@ const SignUp = () => {
   const passwordForm = useRef<any>();
   const history = useHistory();
 
-  const realmApp: Realm.App = Realm.App.getApp("application-0-nukle");
-
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: "#FFF",
     height: "12%",
@@ -116,28 +113,26 @@ const SignUp = () => {
     } else if (tempPass.length < 6) {
       openSnackbar("Password Must Be Greater Than 6 Characters");
     } else {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, tempEmail, tempPass)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+
       setIsSubmitted(true);
-      realmApp.emailPasswordAuth.registerUser(tempEmail, tempPass);
       setTimeout(() => {
         history.push("/login");
         history.go(0);
       }, 4000);
     }
   };
-
-  // const currentUserid = realmApp.currentUser?.id;
-
-  // const addUserInfo = gql`
-  //   query ($userid: String!) {
-  //     userinfo(query: { userid: $userid }) {
-  //       userid
-  //     }
-  //   }
-  // `;
-
-  // const registerFetch = useQuery(addUserInfo, {
-  //   variables: { userid: currentUserid },
-  // });
 
   const openSnackbar = (err: any) => {
     setError(err);

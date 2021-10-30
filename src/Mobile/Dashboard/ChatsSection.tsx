@@ -11,33 +11,16 @@ import {
 import { forwardRef, Fragment, Ref, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CurrentChat from "./CurrentChat/CurrentChat";
-import { useRealmApp } from "../../RealmApp";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
 import { Loading } from "@nextui-org/react";
 import LoadingScreen from "../LoadingScreen";
+import { initializeApp } from "firebase/app";
+import { getDatabase, onValue, ref, set } from "firebase/database";
+import { firebaseConfig } from "../../firebase";
+import { getAuth } from "@firebase/auth";
 
-const getchats = gql`
-  query ($userid: String) {
-    userChat(query: { userid: $userid }) {
-      _id
-      name
-      userid
-      chats {
-        chatuserid
-      }
-    }
-  }
-`;
-const getAllProfilepicsAndIds = gql`
-  query {
-    userChats {
-      userid
-      profilepic
-      name
-    }
-  }
-`;
+const firebaseApp = initializeApp(firebaseConfig);
+const firebaseDB = getDatabase();
+const auth = getAuth();
 
 const AddPersonAvatar = forwardRef((props: any, ref: any) => (
   <Avatar
@@ -94,64 +77,36 @@ const UserAvatar = forwardRef((props: any, ref: any) => (
 const MotionUserAvatar = motion(UserAvatar);
 
 const AllAvatars = (props: any) => {
-  const realmApp = useRealmApp();
-  const mongodb = realmApp.currentUser?.mongoClient("messenger");
-  const chats = mongodb?.db("chats").collection<any>("userChats");
-  const currentUserid = realmApp.currentUser?.id;
-  const userString = currentUserid?.toString();
-
-  const allUserChats = useQuery(getchats, {
-    variables: { userid: currentUserid },
-  });
-  const getAllChats = useQuery(getAllProfilepicsAndIds, {});
-  const allProfiles = useQuery(getchats, {});
+  const userchatdataref = ref(firebaseDB, `userdata/${auth.currentUser?.uid}`);
+  let profilepics: any;
 
   try {
-    const allProfilePics = allUserChats.data?.userChat.chats.map(
-      (chat: any) => {
-        const otherId = chat.chatuserid;
-        const allChats = getAllChats.data;
-        const thisUsersChats = allChats.userChats.find(
-          (e: any) => e.userid == otherId
-        );
-
-        return thisUsersChats.profilepic;
-      }
-    );
-
-    const allAvatars = allProfilePics.map((e: any, index: any) => {
-      const name = getAllChats.data.userChats
-        .find((chat: any) => chat.profilepic == allProfilePics[index])
-        .name.split(" "[0])[0];
-      return (
-        <div>
-          <p
-            style={{
-              marginBottom: "5%",
-              marginTop: " 0",
-              color: "white",
-              fontSize: "0.75rem",
-            }}
-          >
-            {name}
-          </p>
-          <MotionUserAvatar {...props} src={e}></MotionUserAvatar>
-        </div>
-      );
+    onValue(userchatdataref, (snapshot: any) => {
+      const data = snapshot.val();
+      try {
+        profilepics = data.chats?.map((chat: any) => {
+          return chat.profilepic;
+        });
+      } catch {}
     });
-
+    const avatars = profilepics.map((pic: any) => {
+      return <MotionUserAvatar src={pic}></MotionUserAvatar>;
+    });
     return (
       <Fragment>
-        {[...allAvatars]}
-        <MotionAddAvatar whileTap={{ scale: 0.7 }} />
+        {avatars}
+        <AddPersonAvatar></AddPersonAvatar>
+        {avatars.length <= 1 ? <EmptyAvatar /> : null}
       </Fragment>
     );
-  } catch (err) {
+  } catch (_err) {
     return (
       <Fragment>
-        <MotionAddAvatar whileTap={{ scale: 0.7 }} />
-        <EmptyAvatar></EmptyAvatar>
-        <EmptyAvatar></EmptyAvatar>
+        <AddPersonAvatar />
+        <EmptyAvatar />
+        <EmptyAvatar />
+        <EmptyAvatar />
+        <EmptyAvatar />
       </Fragment>
     );
   }
@@ -160,7 +115,7 @@ const AllAvatars = (props: any) => {
 const ChatsSection = (props: any) => {
   const [opened, setOpened] = useState(false);
   return (
-    <div className="chatsSectionContainer">
+    <div className="chatsSectionContainer" {...props}>
       <LoadingScreen />
       <AllAvatars
         whileTap={{ scale: 0.7 }}
@@ -169,7 +124,6 @@ const ChatsSection = (props: any) => {
           position: "relative",
         }}
       />
-      <EmptyAvatar />
       <CurrentChat openedObject={{ opened, setOpened }} />
     </div>
   );
