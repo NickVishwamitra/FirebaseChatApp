@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [overlayLoading, setIsLoading] = useState(false);
+  const [allChats, setAllChats] = useState([]);
   const history = useHistory();
   const realmApp = useRealmApp();
   const currentUserid = realmApp.currentUser?.id;
@@ -34,20 +35,18 @@ const Dashboard = () => {
   setTimeout(() => {
     setIsLoading(false);
   }, 1500);
-  const { loading, error, data } = useQuery(checkIsProfileCreated, {
+  const { data } = useQuery(checkIsProfileCreated, {
     variables: { userid: currentUserid },
   });
 
   try {
     useridregistered = data.userinfo.userid;
-    console.log(useridregistered);
   } catch (err) {}
   return (
     <div className="dashboardPage">
       <Navigtation openObject={{ isOpen, setIsOpen }} />
-      {useridregistered ? null : (
-        <NewProfileModal isOpen={{ modalIsOpen, setModalIsOpen }} />
-      )}
+
+      {/* <NewProfileModal isOpen={{ modalIsOpen, setModalIsOpen }} /> */}
       <div
         className="appTitle"
         onClick={() => {

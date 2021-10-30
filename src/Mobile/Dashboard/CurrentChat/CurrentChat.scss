@@ -1,10 +1,13 @@
 .modal {
   background: none;
-  height: 70vh;
+  height: 80vh;
   display: none;
   overflow-x: none;
 }
 
+.modal::-webkit-scrollbar {
+  display: none;
+}
 .name {
 }
 
@@ -26,6 +29,11 @@
   flex-direction: column;
   background: none;
   height: 100%;
-  width: 100%;
+  width: 110%;
   overflow-x: none;
+  padding-right: 0;
+}
+
+.messagesContainer::-webkit-scrollbar {
+  display: none;
 }

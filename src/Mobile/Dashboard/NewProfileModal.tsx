@@ -72,14 +72,14 @@ const NewProfileModal = (props: any) => {
   const phoneForm = useRef<any>();
   const usernameForm = useRef<any>();
   const { modalIsOpen, setModalIsOpen } = props.isOpen;
-  const [file, setFile] = useState();
+  const [file, setFile] = useState("");
   const [display, setDisplay] = useState("none");
   const handleOpen = () => setModalIsOpen(true);
   const handleClose = () => setModalIsOpen(false);
   const app = useRealmApp();
   const history = useHistory();
   const mongodb = app.currentUser?.mongoClient("messenger");
-  const users = mongodb?.db("users").collection<any>("userinfo");
+  const chats = mongodb?.db("chats").collection<any>("userChats");
   type InsertOneResult = Services.MongoDB.InsertOneResult<BSON.ObjectId>;
   const style = {
     borderRadius: "1%",
@@ -95,30 +95,33 @@ const NewProfileModal = (props: any) => {
   const addUser = gql`
     mutation (
       $name: String!
-      $username: String = ""
-      $phone: Float = 0
+      $phone: Float
+      $username: String
       $userid: String!
-      $profilepic: String = ""
+      $profilepic: String
+      $email: String
     ) {
-      insertOneUserinfo(
+      insertOneUserChat(
         data: {
           name: $name
-          username: $username
           phone: $phone
+          username: $username
           userid: $userid
           profilepic: $profilepic
+          email: $email
         }
       ) {
         _id
-        name
-        phone
         userid
         username
+        phone
+        name
         profilepic
+        email
       }
     }
   `;
-  const [mutateFunction, { data, loading, error }] = useMutation(addUser);
+  const [mutateFunction] = useMutation(addUser);
   const insertUser = () => {
     try {
       mutateFunction({
@@ -128,6 +131,7 @@ const NewProfileModal = (props: any) => {
           phone: Number(phoneForm.current!.value),
           userid: app.currentUser?.id,
           profilepic: file,
+          email: app.currentUser?.profile.email,
         },
       });
       handleClose();
