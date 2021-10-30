@@ -13,13 +13,13 @@ import { MagnifyingGlassIcon } from "@modulz/radix-icons";
 import ChatsSection from "./ChatsSection";
 import Feed from "./Feed/Feed";
 import CurrentChat from "./CurrentChat/CurrentChat";
+import { Loading } from "@nextui-org/react";
 let useridregistered = "";
 
 const Dashboard = () => {
   document.body.style.overflow = "hidden";
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
-  const [overlayLoading, setIsLoading] = useState(false);
   const [allChats, setAllChats] = useState([]);
   const history = useHistory();
   const realmApp = useRealmApp();
@@ -32,9 +32,6 @@ const Dashboard = () => {
     }
   `;
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 1500);
   const { data } = useQuery(checkIsProfileCreated, {
     variables: { userid: currentUserid },
   });

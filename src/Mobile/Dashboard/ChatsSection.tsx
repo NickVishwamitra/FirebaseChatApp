@@ -1,12 +1,21 @@
 import "./Dashboard.scss";
 import { PlusIcon } from "@modulz/radix-icons";
-import { Avatar, Card, Popover, Tooltip, useMantineTheme } from "@mantine/core";
+import {
+  Avatar,
+  Card,
+  LoadingOverlay,
+  Popover,
+  Tooltip,
+  useMantineTheme,
+} from "@mantine/core";
 import { forwardRef, Fragment, Ref, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CurrentChat from "./CurrentChat/CurrentChat";
 import { useRealmApp } from "../../RealmApp";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
+import { Loading } from "@nextui-org/react";
+import LoadingScreen from "../LoadingScreen";
 
 const getchats = gql`
   query ($userid: String) {
@@ -152,12 +161,14 @@ const ChatsSection = (props: any) => {
   const [opened, setOpened] = useState(false);
   return (
     <div className="chatsSectionContainer">
+      <LoadingScreen />
       <AllAvatars
         whileTap={{ scale: 0.7 }}
         onTap={() => setOpened(true)}
-        style={{ position: "relative" }}
+        style={{
+          position: "relative",
+        }}
       />
-      <EmptyAvatar />
       <EmptyAvatar />
       <CurrentChat openedObject={{ opened, setOpened }} />
     </div>

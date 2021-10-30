@@ -1,21 +1,20 @@
 import { LoadingOverlay } from "@mantine/core";
+import { useState } from "react";
 
 const LoadingScreen = () => {
+  const [chatsLoading, setIsLoading] = useState(true);
+
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 2000);
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        zIndex: 100,
-      }}
-    >
-      <LoadingOverlay
-        visible={true}
-        style={{ backgroundColor: "#000" }}
-        overlayOpacity={1}
-        loaderProps={{ size: "xl", color: "green", variant: "bars" }}
-      />
-    </div>
+    <LoadingOverlay
+      visible={chatsLoading}
+      overlayColor="#111418"
+      loaderProps={{ size: "xl", color: "green", variant: "bars" }}
+      overlayOpacity={1}
+      transitionDuration={500}
+    />
   );
 };
 export default LoadingScreen;
