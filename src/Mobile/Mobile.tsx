@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 import LoadingScreen from "./LoadingScreen";
 import { getAuth } from "@firebase/auth";
 
+const auth = getAuth();
 const Mobile = () => {
   const history = useHistory();
 
@@ -25,10 +26,15 @@ const Mobile = () => {
   };
   const [userId, setUserId] = useState("");
   // useEffect(() => setUserId(String(auth.currentUser?.uid)));
+  useEffect(() => {
+    const userid = auth.currentUser?.uid || "none";
+    setUserId(userid);
+  }, [auth.currentUser]);
+  console.log(userId);
   return (
     <div>
       <Route exact path="/">
-        {true ? (
+        {userId ? (
           <Fragment>
             <Dashboard></Dashboard>
           </Fragment>
@@ -36,6 +42,7 @@ const Mobile = () => {
           <LoginScreen
             handleSignUpOnClick={handleSignUpOnClick}
             handleLoginOnClick={handleLoginOnClick}
+            userIdObject={{ userId, setUserId }}
           />
         )}
       </Route>
@@ -45,9 +52,7 @@ const Mobile = () => {
       <Route path="/login">
         <LoginScreen handleSignUpOnClick={handleSignUpOnClick} />
       </Route>
-      <Route path={`/dashboard`}>
-        <Dashboard />
-      </Route>
+      <Route path={`/dashboard`}>{<Dashboard></Dashboard>}</Route>
     </div>
   );
 };

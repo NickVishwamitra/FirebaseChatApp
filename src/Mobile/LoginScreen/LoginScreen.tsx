@@ -48,6 +48,7 @@ const CssTextField = styled(TextField)({
 
 const LoginScreen = (props: any) => {
   const [open, setOpen] = React.useState(false);
+  const userObject = React.useState(props.userIdObject);
   const emailForm = useRef<any>();
 
   const passwordForm = useRef<any>();
@@ -61,7 +62,7 @@ const LoginScreen = (props: any) => {
     setOpen(false);
   };
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -93,8 +94,8 @@ const LoginScreen = (props: any) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        history.push("/");
         history.push("/dashboard");
-        history.go(0);
         // ...
       })
       .catch((error) => {
@@ -125,6 +126,7 @@ const LoginScreen = (props: any) => {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // console.log(currentUserId);
   return (
     <div className="loginScreen">
       <Icon
