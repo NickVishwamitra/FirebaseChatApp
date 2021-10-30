@@ -12,38 +12,50 @@ import Dashboard from "./Dashboard/Dashboard";
 import { Button } from "@mui/material";
 import LoadingScreen from "./LoadingScreen";
 import { getAuth } from "@firebase/auth";
+import { child, get, getDatabase, ref } from "firebase/database";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
-const auth = getAuth();
 const Mobile = () => {
   const history = useHistory();
-
+  const auth = getAuth();
   const handleSignUpOnClick = () => {
     history.push("/signup");
     history.go(0);
   };
-  const handleLoginOnClick = () => {
-    history.push(`/dashboard`);
+
+  const [userRegistered, setUserRegistered] = useState(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserRegistered(true);
+    } else {
+    }
+  });
+
+  const logout = async () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        history.push("/login");
+      })
+      .catch((_error) => {
+        history.push("/login");
+        history.go(0);
+        // An error happened.
+      });
+    history.push("/login");
   };
-  const [userId, setUserId] = useState("");
+
   // useEffect(() => setUserId(String(auth.currentUser?.uid)));
-  useEffect(() => {
-    const userid = auth.currentUser?.uid || "none";
-    setUserId(userid);
-  }, [auth.currentUser]);
-  console.log(userId);
+
   return (
     <div>
       <Route exact path="/">
-        {userId ? (
-          <Fragment>
-            <Dashboard></Dashboard>
-          </Fragment>
+        {userRegistered ? (
+          <Dashboard />
         ) : (
-          <LoginScreen
-            handleSignUpOnClick={handleSignUpOnClick}
-            handleLoginOnClick={handleLoginOnClick}
-            userIdObject={{ userId, setUserId }}
-          />
+          <LoginScreen handleSignUpOnClick={handleSignUpOnClick} />
         )}
       </Route>
       <Route path="/signup">
@@ -52,7 +64,7 @@ const Mobile = () => {
       <Route path="/login">
         <LoginScreen handleSignUpOnClick={handleSignUpOnClick} />
       </Route>
-      <Route path={`/dashboard`}>{<Dashboard></Dashboard>}</Route>
+      <Route path={`/dashboard`}>{userRegistered ? <Dashboard /> : null}</Route>
     </div>
   );
 };

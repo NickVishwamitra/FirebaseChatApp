@@ -25,6 +25,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { initializeApp } from "@firebase/app";
 
@@ -48,9 +49,8 @@ const CssTextField = styled(TextField)({
 
 const LoginScreen = (props: any) => {
   const [open, setOpen] = React.useState(false);
-  const userObject = React.useState(props.userIdObject);
   const emailForm = useRef<any>();
-
+  const auth = getAuth();
   const passwordForm = useRef<any>();
 
   const history = useHistory();
@@ -84,6 +84,7 @@ const LoginScreen = (props: any) => {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
+        console.log(error);
       });
   };
 
@@ -94,7 +95,6 @@ const LoginScreen = (props: any) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        history.push("/");
         history.push("/dashboard");
         // ...
       })

@@ -99,18 +99,6 @@ const NewProfileModal = (props: any) => {
   const handleClose = () => setModalIsOpen(false);
   const history = useHistory();
 
-  const checkRegistered = () => {
-    const userid = auth.currentUser?.uid || null;
-    const userdataref = ref(firebaseDB, `userdata/${userid}`);
-    onValue(userdataref, (snapshot: any) => {
-      const data = snapshot.val();
-      try {
-        data.userid === userid
-          ? setisRegistered(true)
-          : console.log("User Not Registered");
-      } catch (_err) {}
-    });
-  };
   const style = {
     borderRadius: "1%",
     width: "70vw",
@@ -154,14 +142,10 @@ const NewProfileModal = (props: any) => {
     reader.readAsDataURL(files);
   };
 
-  useEffect(() => {
-    checkRegistered();
-  });
-  console.log(isRegistered);
   setTimeout(() => {
     setDisplay("flex");
   }, 2500);
-  return !isRegistered ? (
+  return (
     <Backdrop>
       <StyledModal
         style={{ display: display }}
@@ -239,6 +223,6 @@ const NewProfileModal = (props: any) => {
         </Fade>
       </StyledModal>
     </Backdrop>
-  ) : null;
+  );
 };
 export default NewProfileModal;

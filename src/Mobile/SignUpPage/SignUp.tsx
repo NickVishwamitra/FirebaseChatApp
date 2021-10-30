@@ -21,14 +21,9 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import Submitted from "./Submitted";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-
+import { getDatabase, set, ref } from "@firebase/database";
 export const GoogleButton = styled("button")(`
   background-color: #FFF;
   padding: 10px 20px;
@@ -108,35 +103,6 @@ const SignUp = () => {
     setOpen(false);
   };
 
-  const googleSignIn = () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // ...
-        setIsSubmitted(true);
-        setTimeout(() => {
-          history.push("/login");
-          history.go(0);
-        }, 2000);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
-
   const RegisterHandler = () => {
     const tempEmail = emailForm.current!.value;
     const tempPass = passwordForm.current!.value;
@@ -153,6 +119,11 @@ const SignUp = () => {
           // Signed in
           const user = userCredential.user;
           // ...
+          const db = getDatabase();
+          set(ref(db, `userdata/${user.uid}`), {
+            email: user.email,
+            userid: user.uid,
+          });
         })
         .catch((error) => {
           const errorCode = error.code;

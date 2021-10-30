@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { Button, ButtonProps, buttonUnstyledClasses } from "@mui/material";
 import styled from "@emotion/styled";
 import { useHistory } from "react-router";
+import { getAuth, signOut } from "firebase/auth";
 const variants = {
   open: {
     y: 0,
@@ -49,14 +50,14 @@ export const NavItem = ({ props, i }: { i: any; props: any }) => {
   };
 
   const logout = async () => {
-    // const auth = getAuth();
-    // signOut(auth)
-    //   .then(() => {
-    //     // Sign-out successful.
-    //   })
-    //   .catch((_error) => {
-    //     // An error happened.
-    //   });
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((_error) => {
+        // An error happened.
+      });
     history.push("/login");
   };
 

@@ -20,28 +20,40 @@ import CurrentChat from "./CurrentChat/CurrentChat";
 import { Loading } from "@nextui-org/react";
 import { firebaseConfig } from "../../firebase";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, get, child } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { async } from "@firebase/util";
 let useridregistered = "";
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseDB = getDatabase();
-const auth = getAuth();
-
-const checkRegistered = () => {};
 
 const Dashboard = () => {
+  const auth = getAuth();
+  const firebaseDB = getDatabase();
   document.body.style.overflow = "hidden";
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [visible, setVisible] = useState("visible");
-  const [allChats, setAllChats] = useState([]);
+  const [userProfileCreated, setUserProfileCreated] = useState(false);
   const history = useHistory();
+
+  get(ref(firebaseDB, `userdata/${auth.currentUser?.uid}/name`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        setUserProfileCreated(true);
+      } else {
+        setUserProfileCreated(false);
+      }
+    })
+    .catch((_err) => {});
 
   return (
     <div className="dashboardPage">
       <Navigtation openObject={{ isOpen, setIsOpen }} />
 
-      <NewProfileModal isOpen={{ modalIsOpen, setModalIsOpen }} />
+      {!userProfileCreated ? (
+        <NewProfileModal isOpen={{ modalIsOpen, setModalIsOpen }} />
+      ) : null}
       <div
         className="appTitle"
         onClick={() => {
