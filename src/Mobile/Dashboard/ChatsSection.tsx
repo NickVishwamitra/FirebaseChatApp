@@ -85,18 +85,38 @@ const AllAvatars = (props: any) => {
       const data = snapshot.val();
       try {
         profilepics = data.chats?.map((chat: any) => {
-          return chat.profilepic;
+          return chat.otherprofilepic;
         });
       } catch {}
     });
     const avatars = profilepics.map((pic: any) => {
-      return <MotionUserAvatar src={pic}></MotionUserAvatar>;
+      return (
+        <div>
+          <p
+            style={{
+              margin: "0",
+              marginTop: "30%",
+              marginBottom: "2%",
+              color: "white",
+            }}
+          >
+            Nick
+          </p>
+          <MotionUserAvatar src={pic} {...props}></MotionUserAvatar>;
+        </div>
+      );
     });
+    console.log(avatars);
     return (
       <Fragment>
         {avatars}
-        <AddPersonAvatar></AddPersonAvatar>
-        {avatars.length <= 1 ? <EmptyAvatar /> : null}
+        <MotionAddAvatar />
+        {avatars.length <= 2 ? (
+          <Fragment>
+            <EmptyAvatar />
+            <EmptyAvatar />
+          </Fragment>
+        ) : null}
       </Fragment>
     );
   } catch (_err) {
