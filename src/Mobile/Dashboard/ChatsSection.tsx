@@ -95,14 +95,19 @@ const AllAvatars = (props: any) => {
           <p
             style={{
               margin: "0",
-              marginTop: "30%",
-              marginBottom: "2%",
+              marginTop: "0%",
+              marginBottom: "5%",
               color: "white",
+              fontSize: "0.75rem",
             }}
           >
             Nick
           </p>
-          <MotionUserAvatar src={pic} {...props}></MotionUserAvatar>;
+          <MotionUserAvatar
+            src={pic}
+            {...props}
+            // style={{ border: "3px solid #00b472" }}
+          ></MotionUserAvatar>
         </div>
       );
     });
@@ -110,7 +115,7 @@ const AllAvatars = (props: any) => {
     return (
       <Fragment>
         {avatars}
-        <MotionAddAvatar />
+        <MotionAddAvatar whileTap={{ scale: 0.7 }} />
         {avatars.length <= 2 ? (
           <Fragment>
             <EmptyAvatar />

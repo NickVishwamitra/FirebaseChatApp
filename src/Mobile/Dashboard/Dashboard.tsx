@@ -20,7 +20,7 @@ import CurrentChat from "./CurrentChat/CurrentChat";
 import { Loading } from "@nextui-org/react";
 import { firebaseConfig } from "../../firebase";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { async } from "@firebase/util";
 let useridregistered = "";
@@ -33,19 +33,27 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [visible, setVisible] = useState("visible");
+  const [searchData, setSearchData] = useState([]);
   const [userProfileCreated, setUserProfileCreated] = useState(false);
   const history = useHistory();
 
   get(ref(firebaseDB, `userdata/${auth.currentUser?.uid}/name`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        console.log(snapshot.val());
         setUserProfileCreated(true);
       } else {
         setUserProfileCreated(false);
       }
     })
     .catch((_err) => {});
+
+  const onSearchChange = (e: any) => {
+    const searchRef = ref(firebaseDB, `userdata/`);
+    onValue(searchRef, (snapshot: any) => {
+      const data = snapshot.val();
+      console.log(Object.values(data).map((obj: any) => obj));
+    });
+  };
 
   return (
     <div className="dashboardPage">
@@ -91,6 +99,7 @@ const Dashboard = () => {
         data={["React", "Angular", "Svelte", "Vue"]}
         onDropdownOpen={() => setVisible("none")}
         onDropdownClose={() => setVisible("flex")}
+        onChange={onSearchChange}
       ></Autocomplete>
 
       <ChatsSection style={{ display: visible }} />
