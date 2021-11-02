@@ -1,5 +1,8 @@
 import {
   Autocomplete,
+  Avatar,
+  Group,
+  Text,
   Input,
   LoadingOverlay,
   Popover,
@@ -7,7 +10,7 @@ import {
 } from "@mantine/core";
 import { Button } from "@mui/material";
 import { useCycle } from "framer-motion";
-import { Fragment, useEffect, useState } from "react";
+import { forwardRef, Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import "./Dashboard.scss";
 import { Navigtation } from "./NavMenu/Navigation";
@@ -33,7 +36,7 @@ const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [visible, setVisible] = useState("visible");
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData] = useState<any>([]);
   const [userProfileCreated, setUserProfileCreated] = useState(false);
   const history = useHistory();
 
@@ -48,12 +51,40 @@ const Dashboard = () => {
     .catch((_err) => {});
 
   const onSearchChange = (e: any) => {
-    const searchRef = ref(firebaseDB, `userdata/`);
-    onValue(searchRef, (snapshot: any) => {
-      const data = snapshot.val();
-      console.log(Object.values(data).map((obj: any) => obj));
-    });
+    try {
+      const searchRef = ref(firebaseDB, `userdata/`);
+
+      onValue(searchRef, (snapshot: any) => {
+        const data = snapshot.val();
+
+        const allSearchUsersInfo = Object.values(data).filter((obj: any) =>
+          obj.name?.toLowerCase().includes(e.toLowerCase())
+        );
+
+        const searchArray = allSearchUsersInfo.map((user: any) => {
+          return { value: user.name, image: user.profilepic };
+        });
+
+        setSearchData(searchArray);
+      });
+    } catch (err) {}
   };
+
+  const AutoCompleteItem = forwardRef<any>(
+    ({ value, image, ...others }: any, ref) => (
+      <div ref={ref} {...others}>
+        <Group noWrap>
+          <Avatar src={image} />
+
+          <div>
+            <Text style={{ color: "#FFF" }}>
+              {value[0].toUpperCase() + value.substring(1)}
+            </Text>
+          </div>
+        </Group>
+      </div>
+    )
+  );
 
   return (
     <div className="dashboardPage">
@@ -96,10 +127,11 @@ const Dashboard = () => {
         color="#FFF"
         icon={<MagnifyingGlassIcon />}
         radius="lg"
-        data={["React", "Angular", "Svelte", "Vue"]}
+        data={searchData}
         onDropdownOpen={() => setVisible("none")}
         onDropdownClose={() => setVisible("flex")}
         onChange={onSearchChange}
+        itemComponent={AutoCompleteItem}
       ></Autocomplete>
 
       <ChatsSection style={{ display: visible }} />
