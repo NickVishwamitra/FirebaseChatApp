@@ -34,7 +34,7 @@ const CurrentChat = (props: any) => {
     get(ref(db, `userdata/${userid}/chatmessages/${props.openedUserId}`)).then(
       (snapshot: any) => {
         if (snapshot.exists()) {
-          const index = snapshot.val();
+          const index = snapshot.val().length;
           const currentChatRef = ref(
             db,
             `userdata/${userid}/chatmessages/${props.openedUserId}/${index}`
