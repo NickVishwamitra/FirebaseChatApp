@@ -77,19 +77,37 @@ const UserAvatar = forwardRef((props: any, ref: any) => (
 const MotionUserAvatar = motion(UserAvatar);
 
 const AllAvatars = (props: any) => {
+  const [opened, setOpened] = useState(false);
+  const [openedUserId, setOpenedUserID] = useState("");
+  const [openedName, setOpenedName] = useState("");
+  const [openedPfp, setOpenedPfp] = useState("");
   const userchatdataref = ref(firebaseDB, `userdata/${auth.currentUser?.uid}`);
   let profilepics: any;
+  let userids: any;
+  let names: any;
+  let data: any;
 
   try {
     onValue(userchatdataref, (snapshot: any) => {
-      const data = snapshot.val();
-      try {
-        profilepics = data.chats?.map((chat: any) => {
-          return chat.otherprofilepic;
-        });
-      } catch {}
+      data = snapshot.val();
+      profilepics = data.chats?.map((chat: any) => {
+        return chat.otherprofilepic;
+      });
+      userids = data.chats?.map((chat: any) => {
+        return chat.otheruserid;
+      });
+      names = data.chats?.map((chat: any) => {
+        return chat.chatname;
+      });
     });
-    const avatars = profilepics.map((pic: any) => {
+    const avatars = profilepics.map((pic: any, index: any) => {
+      const tapHandler = () => {
+        setOpened(true);
+        setOpenedUserID(userids[index]);
+        setOpenedName(names[index]);
+        setOpenedPfp(profilepics[index]);
+      };
+
       return (
         <div>
           <p
@@ -101,22 +119,28 @@ const AllAvatars = (props: any) => {
               fontSize: "0.75rem",
             }}
           >
-            Nick
+            {names[index]}
           </p>
           <MotionUserAvatar
             src={pic}
+            onTap={tapHandler}
             {...props}
             // style={{ border: "3px solid #00b472" }}
           ></MotionUserAvatar>
+          <CurrentChat
+            openedObject={{ opened, setOpened }}
+            openedUserId={openedUserId}
+            chatName={openedName}
+            openedPfp={openedPfp}
+          />
         </div>
       );
     });
-    console.log(avatars);
     return (
       <Fragment>
         {avatars}
         <MotionAddAvatar whileTap={{ scale: 0.7 }} />
-        {avatars.length <= 2 ? (
+        {avatars.length <= 5 ? (
           <Fragment>
             <EmptyAvatar />
             <EmptyAvatar />
@@ -138,18 +162,15 @@ const AllAvatars = (props: any) => {
 };
 
 const ChatsSection = (props: any) => {
-  const [opened, setOpened] = useState(false);
   return (
     <div className="chatsSectionContainer" {...props}>
       <LoadingScreen />
       <AllAvatars
         whileTap={{ scale: 0.7 }}
-        onTap={() => setOpened(true)}
         style={{
           position: "relative",
         }}
       />
-      <CurrentChat openedObject={{ opened, setOpened }} />
     </div>
   );
 };
