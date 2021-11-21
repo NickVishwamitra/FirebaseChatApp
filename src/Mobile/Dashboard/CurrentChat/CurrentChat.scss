@@ -1,8 +1,22 @@
 .modal {
   background: none;
-  height: 80vh;
+  height: 90vh;
+  width: 70%;
   display: none;
   overflow-x: none;
+  justify-self: center;
+  margin-left: 15%;
+}
+
+@media screen and (max-width: 500px) {
+  .modal {
+    background: none;
+    height: 90vh;
+    display: none;
+    overflow-x: none;
+    width: 100%;
+    margin-left: 0%;
+  }
 }
 
 .modal::-webkit-scrollbar {

@@ -3,7 +3,7 @@ import { getDatabase, onValue, ref } from "@firebase/database";
 import { Card, Menu } from "@mantine/core";
 import { color } from "@mui/system";
 import { motion } from "framer-motion";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import "./CurrentChat.scss";
 
 const LeftBubble = (props: any) => {
@@ -63,6 +63,7 @@ const ChatBubble = (props: any) => {
     firebaseDB,
     `userdata/${auth.currentUser?.uid}/chatmessages/${openedUserId}`
   );
+
   useEffect(() => {
     onValue(messagesRef, (snapshot: any) => {
       data = snapshot.val();
@@ -79,7 +80,6 @@ const ChatBubble = (props: any) => {
       } catch (err) {}
     });
   }, []);
-
   return (
     <motion.div
       style={{ display: "flex", flexDirection: "column", gap: "10px" }}

@@ -3,8 +3,8 @@
 $primary: #00b472;
 
 .timelineSection {
-  height: 55%;
-  width: 90%;
+  height: 60%;
+  width: 50%;
   background-color: rgba(37, 42, 49, 0.6);
   border-radius: 5%;
   display: flex;
@@ -40,6 +40,17 @@ $primary: #00b472;
   padding-top: 5%;
   overflow: scroll;
 }
+@media screen and (max-width: 500px) {
+  .timelineSection {
+    height: 55%;
+    width: 90%;
+    background-color: rgba(37, 42, 49, 0.6);
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .feed::-webkit-scrollbar {
   display: none;
 }

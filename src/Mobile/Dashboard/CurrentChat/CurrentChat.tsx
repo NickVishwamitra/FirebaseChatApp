@@ -14,6 +14,7 @@ const CurrentChat = (props: any) => {
   const [enteredMessage, setEnteredMessage] = useState("");
   const forceupdate = useForceUpdate();
   const inputRef = useRef<any>();
+
   const inputHandler = (e: any) => {
     setEnteredMessage(e.target.value);
   };
@@ -26,6 +27,7 @@ const CurrentChat = (props: any) => {
       }
       inputRef.current.value = "";
     }
+
     forceupdate();
   };
 
@@ -84,8 +86,6 @@ const CurrentChat = (props: any) => {
       // });
     });
   };
-
-  type ContentPosition = "right";
 
   return (
     <Modal
